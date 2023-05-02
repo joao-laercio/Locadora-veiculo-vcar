@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+{% load bootstrap5 %}
+    {% block title %}Cadastra um Cliente{% endblock title %}
+    {% block content %}
+    <h1>Cadastra um Cliente</h1>
+
+    <form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">
+      Cadastra
+    </button>
+    {% endbuttons %}
+    </form>
+    {% endblock content %}
