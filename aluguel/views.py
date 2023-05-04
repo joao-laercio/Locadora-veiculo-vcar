@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Carro, Aluguel, Cliente
-from .forms import AluguelForm, CarroForm
+from django.contrib.auth.decorators import login_required, permission_required
+from .forms import AluguelForm, CarroForm, MyUserCreationForm
+
 
 
 
@@ -31,6 +33,8 @@ def detalhar_carro(request, pk):
     carro = Carro.objects.get(pk=pk)
     return render(request, 'Carro/detalhar.html', {"carro":carro})
 
+@login_required
+@permission_required('carros.add_carro')
 def cadastrar_carro(request):
     if request.method == "POST":
         form = CarroForm(request.POST, request.FILES)
@@ -45,6 +49,8 @@ def cadastrar_carro(request):
         return render(request, "carro/cadastrar.html", {'form': form})
         
 
+@login_required
+@permission_required('carros.change_carro')
 def atualizar_carro(request, pk):
     autor = Carro.objects.get(pk=pk)
     form = CarroForm(instance=Carro)
@@ -59,6 +65,29 @@ def atualizar_carro(request, pk):
     else:
         return render(request, "autor/atualizar.html", {'form': form})
 
+@login_required
+@permission_required('carros.delete_carro')
+def deletar_carro(request, pk):
+    carro = Carro.objects.get(pk=pk)
+
+    if carro:
+        carro.delete()
+        return redirect("carros/carro")
+    else:
+        return render(request, "carro/listar.html", {'msg': "Carro não encontrado"})
+
+def registration(request):
+    if request.method == "POST":
+        form = MyUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+        else:
+            form = MyUserCreationForm()
+            return render(request, "registration/registration.html", {'form': form})
+    else:
+        form = MyUserCreationForm()
+        return render(request, "registration/registration.html", {'form': form})
 
 def realizar_aluguel(request, pk):
     aluguel = Aluguel.objects.get(pk=pk)

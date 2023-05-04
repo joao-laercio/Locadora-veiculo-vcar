@@ -3,7 +3,7 @@
 {% block content %}
 
 <ul class="list-group list-group-flush">
-    {% for carro in aluguel_carro.img %}
+    {% for carro in carros %}
     <li class="list-group-item">{{carro.codigo}} - {{carro.marca}} - {{carro.modelo}}</li>
     {% endfor %}
   </ul>

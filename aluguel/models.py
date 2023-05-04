@@ -6,12 +6,12 @@ class Carro(models.Model):
     placa = models.CharField('Placa', max_length=10)
     marca = models.CharField('Marca', max_length=200)
     ano = models.CharField('Ano', max_length=4)
-    modelo = models.CharField('Ano', max_length=20)
+    modelo = models.CharField('Modelo', max_length=20)
     img = models.ImageField("Imagem", upload_to='imagens', null=True, blank=True)
     data_compra = models.DateField('Data de compra')
     
     def __str__(self):
-        return "{}" - "{}".format(self.marca, self.modelo )
+        return "{} - {}".format(self.marca, self.modelo)
         
 class Cliente(models.Model):
     cpf = models.CharField('Cpf', max_length=11)
